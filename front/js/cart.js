@@ -68,11 +68,23 @@ function modifQuantity(element, event) {
         if (cart[j].id === productId && cart[j].color === productColor) {
             cart[j].quantity = parseInt(newQuantity);
             localStorage.setItem('cart', JSON.stringify(cart))
-            console.log(cart)
+            window.location.reload();
         }
     }
 }
 
 function deleteProduct(element) {
+    let article = element.closest('article');
+    let productId = article.dataset.id;
+    let productColor = article.dataset.color;
 
+    for (let i = 0; i < cart.length; i++) {
+        if (cart[i].id === productId && cart[i].color === productColor) {
+            cart.splice(i, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            console.log(cart)
+        }
+    }
+    article.remove()
 }
+
