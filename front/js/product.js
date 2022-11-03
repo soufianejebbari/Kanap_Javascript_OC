@@ -1,8 +1,7 @@
 const getParamFromUrl = (url, param) => {
     let newUrl = new URL(url);
     let searchParams = new URLSearchParams(newUrl.search);
-    let paramValue = searchParams.get(param);
-    return paramValue;
+    return searchParams.get(param);
 }
 
 let windowUrl = window.location.href;
@@ -46,7 +45,7 @@ const colorValid = (color) => {
 
 
 const quantityValid = (quantity) => {
-    if (quantity == 0 || quantity == "" || quantity > 100) {
+    if (quantity === 0 || quantity === "" || quantity > 100) {
         alert("Veuillez choisir une quantité comprise entre 1 et 100");
     } else {
         return true;
@@ -63,8 +62,7 @@ const checkCart = (item, cart) => {
         let findItem = cart.find((element) => element.id === item.id && element.color === item.color);
         // If we find identical product, we increment quantity
         if (findItem) {
-            let newQuantity = parseInt(item.quantity) + parseInt(findItem.quantity);
-            findItem.quantity = newQuantity;
+            findItem.quantity = parseInt(item.quantity) + parseInt(findItem.quantity);
             saveCart(cart);
             // If product is not already in cart we add it to cart
         } else {
