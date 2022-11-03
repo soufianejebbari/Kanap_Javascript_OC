@@ -19,7 +19,7 @@ for (let item of cart) {
         .then(function (product) {
             let price = product.price;
             if (item.quantity > 0) {
-                totalQuantity += item.quantity;
+                totalQuantity += parseInt(item.quantity);
                 //ou totalPrice = totalPrice + price * item.quantity;
                 totalPrice += price * item.quantity;
             }
@@ -135,7 +135,7 @@ function calculateTotal(productId, oldQuantity, newQuantity) {
 
                 // Cas où l'ancienne quantité est > 0 et la nouvelle quantité est < 0 ->
                 // différence = on soustrait l'ancienne quantité
-            } else if (newQuantity < 0 && oldQuantity > 0) {
+            } else if (newQuantity === 0 && oldQuantity > 0) {
                 quantityDifference = - oldQuantity;
                 priceDifference = quantityDifference * price;
             }
