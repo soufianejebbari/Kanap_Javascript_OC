@@ -147,77 +147,72 @@ function calculateTotal(productId, oldQuantity, newQuantity) {
 
 
 // Contact form
-
-const checkFirstnameInput = () => {
-    const firstName = document.getElementById("firstName");
-    if (!/\b([A-ZÀ-ÿa-z][-,a-z. ']+[ ]*)+$/.test(firstName.value)) {
-        document.getElementById("firstNameErrorMsg").innerHTML = "Le prénom n'est pas valide";
-    } else {
-        document.getElementById("firstNameErrorMsg").innerHTML = "";
-        return true;
+function getForm() {
+    const checkFirstnameInput = () => {
+        const firstName = document.getElementById("firstName");
+        if (!/\b([A-ZÀ-ÿa-z][-,a-z. ']+[ ]*)+$/.test(firstName.value)) {
+            document.getElementById("firstNameErrorMsg").innerHTML = "Le prénom n'est pas valide";
+        } else {
+            document.getElementById("firstNameErrorMsg").innerHTML = "";
+            return true;
+        }
     }
-}
 
-const checkLastnameInput = () => {
-    const lastName = document.getElementById("lastName");
-    if (!/\b([A-Za-z][-,a-z. ']+[ ]*)+$/.test(lastName.value)) {
-        document.getElementById("lastNameErrorMsg").innerHTML = "Le nom n'est pas valide";
-    } else {
-        document.getElementById("lastNameErrorMsg").innerHTML = "";
-        return true;
+    const checkLastnameInput = () => {
+        const lastName = document.getElementById("lastName");
+        if (!/\b([A-Za-z][-,a-z. ']+[ ]*)+$/.test(lastName.value)) {
+            document.getElementById("lastNameErrorMsg").innerHTML = "Le nom n'est pas valide";
+        } else {
+            document.getElementById("lastNameErrorMsg").innerHTML = "";
+            return true;
+        }
     }
-}
 
-const checkAddressInput = () => {
-    const address = document.getElementById("address");
-    if (!/^[A-Za-z0-9\s]{5,100}$/.test(address.value)) {
-        document.getElementById("addressErrorMsg").innerHTML = "L'adresse n'est pas valide";
-    } else {
-        document.getElementById("addressErrorMsg").innerHTML = "";
-        return true;
+    const checkAddressInput = () => {
+        const address = document.getElementById("address");
+        if (!/^[A-Za-z0-9\s]{5,100}$/.test(address.value)) {
+            document.getElementById("addressErrorMsg").innerHTML = "L'adresse n'est pas valide";
+        } else {
+            document.getElementById("addressErrorMsg").innerHTML = "";
+            return true;
+        }
     }
-}
 
-const checkCityInput = () => {
-    const city = document.getElementById("city");
-    if (!/\b([A-Za-z][-,a-z. ']+[ ]*)+$/.test(city.value)) {
-        document.getElementById("cityErrorMsg").innerHTML = "La ville n'est pas valide";
-    } else {
-        document.getElementById("cityErrorMsg").innerHTML = "";
-        return true;
+    const checkCityInput = () => {
+        const city = document.getElementById("city");
+        if (!/\b([A-Za-z][-,a-z. ']+[ ]*)+$/.test(city.value)) {
+            document.getElementById("cityErrorMsg").innerHTML = "La ville n'est pas valide";
+        } else {
+            document.getElementById("cityErrorMsg").innerHTML = "";
+            return true;
+        }
     }
-}
 
-const checkEmailInput = () => {
-    const email = document.getElementById("email");
-    if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email.value)) {
-        document.getElementById("emailErrorMsg").innerHTML = "L'email n'est pas valide";
-    } else {
-        document.getElementById("emailErrorMsg").innerHTML = "";
-        return true;
+    const checkEmailInput = () => {
+        const email = document.getElementById("email");
+        if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email.value)) {
+            document.getElementById("emailErrorMsg").innerHTML = "L'email n'est pas valide";
+        } else {
+            document.getElementById("emailErrorMsg").innerHTML = "";
+            return true;
+        }
     }
+
+    const checkFormInputs = () => {
+        const form = document.querySelector(".cart__order__form");
+        form.firstName.addEventListener('change', checkFirstnameInput);
+        form.lastName.addEventListener('change', checkLastnameInput);
+        form.address.addEventListener('change', checkAddressInput);
+        form.city.addEventListener('change', checkCityInput);
+        form.email.addEventListener('change', checkEmailInput);
+    }
+    checkFormInputs();
 }
 
-const checkFormInputs = () => {
-    const form = document.querySelector(".cart__order__form");
-    form.firstName.addEventListener('change', checkFirstnameInput);
-    form.lastName.addEventListener('change', checkLastnameInput);
-    form.address.addEventListener('change', checkAddressInput);
-    form.city.addEventListener('change', checkCityInput);
-    form.email.addEventListener('change', checkEmailInput);
-}
-
-checkFormInputs();
+getForm();
 
 
-const validateForm = () => {
-    const a = checkFirstnameInput();
-    const b = checkLastnameInput();
-    const c = checkAddressInput();
-    const d = checkCityInput();
-    const e = checkEmailInput();
-    return (a && b && c && d && e);
-}
+
 
 function postForm() {
     let orderBtn = document.getElementById("order");
