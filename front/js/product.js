@@ -45,7 +45,7 @@ const colorValid = (color) => {
 
 
 const quantityValid = (quantity) => {
-    if (quantity === 0 || quantity === "" || quantity > 100) {
+    if (quantity == 0 || quantity == "" || quantity > 100) {
         alert("Veuillez choisir une quantité comprise entre 1 et 100");
     } else {
         return true;
