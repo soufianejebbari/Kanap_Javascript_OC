@@ -1,4 +1,3 @@
-
 let cart = JSON.parse(localStorage.getItem("cart"));
 let cartItem = document.getElementById('cart__items');
 let inputQuantity = document.getElementsByClassName('itemQuantity');
@@ -90,6 +89,7 @@ function modifQuantity(element, event) {
         }
     }
 }
+
 function deleteProduct(element) {
     let article = element.closest('article');
 
@@ -111,12 +111,12 @@ function deleteProduct(element) {
 
 function calculateTotal(productId, oldQuantity, newQuantity) {
     fetch("http://localhost:3000/api/products/" + productId)
-        .then(function(res) {
+        .then(function (res) {
             if (res.ok) {
                 return res.json();
             }
         })
-        .then(function(product) {
+        .then(function (product) {
             let quantityDifference = 0;
             let price = product.price;
             let priceDifference = 0;
@@ -136,7 +136,7 @@ function calculateTotal(productId, oldQuantity, newQuantity) {
                 // Cas où l'ancienne quantité est > 0 et la nouvelle quantité est < 0 ->
                 // différence = on soustrait l'ancienne quantité
             } else if (newQuantity === 0 && oldQuantity > 0) {
-                quantityDifference = - oldQuantity;
+                quantityDifference = -oldQuantity;
                 priceDifference = quantityDifference * price;
             }
 
@@ -219,44 +219,48 @@ const validateForm = () => {
     return (a && b && c && d && e);
 }
 
+function postForm() {
+    let orderBtn = document.getElementById("order");
+    orderBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (validateForm()) {
+            let productsID = [];
+            for (let p of cart) {
+                productsID.push(p.id);
+            }
+            let order = {
+                contact: {
+                    firstName: firstName.value,
+                    lastName: lastName.value,
+                    address: address.value,
+                    city: city.value,
+                    email: email.value,
+                },
+                products: productsID,
+            }
+            fetch("http://localhost:3000/api/products/order", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-type": "application/json",
+                },
+                body: JSON.stringify(order),
+            })
+                .then((res) => {
+                    return res.json();
+                })
+                .then((data) => {
+                    console.log(data);
+                    localStorage.clear();
+                    document.location.href = `confirmation.html?id=${data.orderId}`;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            alert("Un ou plusieurs champs sont mal renseignés.");
+        }
+    })
+}
 
-let orderBtn = document.getElementById("order");
-orderBtn.addEventListener('click', (event) => {
-    event.preventDefault();
-    if (validateForm()) {
-        let productsID = [];
-        for (let p of cart) {
-            productsID.push(p.id);
-        }
-        let order = {
-            contact: {
-                firstName: firstName.value,
-                lastName: lastName.value,
-                address: address.value,
-                city: city.value,
-                email: email.value,
-            },
-            products: productsID,
-        }
-        fetch("http://localhost:3000/api/products/order", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-type": "application/json",
-            },
-            body: JSON.stringify(order),
-        })
-            .then((res) => {
-                return res.json();
-            })
-            .then((data) => {
-                window.location.href = `confirmation.html?id=${data.orderId}`;
-                localStorage.clear();
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    } else {
-        alert("Un ou plusieurs champs sont mal renseignés.");
-    }
-})
+postForm();
