@@ -249,8 +249,9 @@ orderBtn.addEventListener('click', (event) => {
                 return res.json();
             })
             .then((data) => {
-                window.location.href = `confirmation.html?id=${data.orderId}`;
+                console.log(data);
                 localStorage.clear();
+                document.location.href = `confirmation.html?id=${data.orderId}`;
             })
             .catch((error) => {
                 console.log(error);
